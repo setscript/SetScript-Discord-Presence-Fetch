@@ -2,7 +2,7 @@ const express = require('express');
 const { Client, GatewayIntentBits, Events, Partials } = require('discord.js');
 
 const app = express();
-const port = 3000;
+const port = 3002;
 
 const client = new Client({
     intents: [
