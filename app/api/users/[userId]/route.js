@@ -4,7 +4,7 @@ export async function GET(request, { params }) {
   const userId = params.userId;
 
   try {
-    const botResponse = await fetch(`http://localhost:3002/users/${userId}`);
+    const botResponse = await fetch(`https://api.setscript.com/users/${userId}`);
 
     if (!botResponse.ok) {
       const errorData = await botResponse.json();

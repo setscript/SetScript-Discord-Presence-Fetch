@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Presence Card</title>
+    <link rel="icon" href="data:,">
+    <meta name="robots" content="noindex">
+    <link rel="apple-touch-icon" href="/img/icon.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: transparent;
+            min-height: auto;
+            display: inline-block;
+        }
+        
+        .card {
+            width: 400px;
+            background: linear-gradient(145deg, #2f3136, #36393f);
+            border-radius: 16px;
+            padding: 24px;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            margin: 0;
+            display: inline-block;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 88px;
+            height: 88px;
+        }
+        
+        .avatar {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            border: 4px solid #status-color#;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 18px;
+            height: 18px;
+            background: #2f3136;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #2f3136;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .status-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #status-color#;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .username {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status {
+            font-size: 0.9em;
+            color: #b9bbbe;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.9;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .activity:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .activity-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .activity-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+        
+        .activity-info {
+            flex: 1;
+        }
+        
+        .activity-name {
+            font-size: 1em;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .activity-details {
+            font-size: 0.9em;
+            color: #b9bbbe;
+            margin-top: 4px;
+        }
+        
+        .activity-state {
+            font-size: 0.85em;
+            color: #72767d;
+            margin-top: 2px;
+        }
+
+        .custom-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #dcddde;
+            margin-top: 6px;
+            font-size: 0.95em;
+        }
+
+        .custom-status-emoji {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+            object-fit: contain;
+        }
+
+        .emoji {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+            object-fit: contain;
+            display: inline-block;
+            margin: 0 2px;
+        }
+        
+        .small-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        .spotify-icon {
+            color: #1db954;
+            margin-right: 4px;
+        }
+        
+        .vscode-icon {
+            color: #0098ff;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="avatar-container">
+                <img class="avatar" src="#avatar-url#" alt="#username#" crossorigin="anonymous">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                </div>
+            </div>
+            <div class="user-info">
+                <h2 class="username">#username#</h2>
+                <div class="custom-status" style="display: #custom-status-display#">
+                    #custom-status-emoji#
+                    #custom-status-text#
+                </div>
+            </div>
+        </div>
+        
+        <div class="activity spotify-activity" style="display: #spotify-display#">
+            <div class="activity-content">
+                <img class="activity-icon" src="#spotify-image#" alt="Album Art" crossorigin="anonymous">
+                <div class="activity-info">
+                    <div class="activity-name">
+                        <svg class="spotify-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                        </svg>
+                        Spotify'da Dinliyor
+                    </div>
+                    <div class="activity-details">#spotify-title#</div>
+                    <div class="activity-state">#spotify-artist#</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="other-activities">
+            #other-activities#
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SetScript Discord Presence API</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card {
+            background: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+    </style>
+    <script>
+        function updateAPIStatus() {
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('uptime').textContent = data.uptime;
+                    document.getElementById('memory').textContent = `${data.memory.usage} ${data.memory.unit}`;
+                    document.getElementById('server-status').textContent = data.discord.status === 'connected' ? 'Aktif' : 'Bakımda';
+                    document.getElementById('total-users').textContent = `${data.discord.totalUsers} kişi`;
+                })
+                .catch(error => console.error('API durumu alınamadı:', error));
+        }
+
+        // Sayfa yüklendiğinde ve her 5 saniyede bir güncelle
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAPIStatus();
+            setInterval(updateAPIStatus, 5000);
+        });
+    </script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen" x-data="{ darkMode: true }">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-4 gradient-text">
+                SetScript Discord Presence API
+            </h1>
+            <p class="text-xl text-gray-400">
+                Discord kullanıcı durumlarını ve aktivitelerini gerçek zamanlı takip edin
+            </p>
+        </header>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- API Durumu -->
+            <div class="card rounded-xl p-6">
+                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                    API Durumu
+                </h2>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400">Versiyon</span>
+                        <span class="text-green-400">1.0.0</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400">Sunucu</span>
+                        <span class="text-green-400" id="server-status">Aktif</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400">Kullanıcı</span>
+                        <span class="text-green-400" id="total-users">??? kişi</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400">Çalışma Süresi</span>
+                        <span class="text-green-400" id="uptime">??? saat</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400">Bellek</span>
+                        <span class="text-green-400" id="memory">??? MB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hızlı Başlangıç -->
+            <div class="card rounded-xl p-6">
+                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    Hızlı Başlangıç
+                </h2>
+                <div class="space-y-3">
+                    <div>
+                        <p class="text-gray-400 mb-2">Kullanıcı Bilgisi:</p>
+                        <code class="block bg-gray-800 p-3 rounded-lg text-sm font-mono">
+                            GET /users/:userId
+                        </code>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 mb-2">Presence Kartı:</p>
+                        <code class="block bg-gray-800 p-3 rounded-lg text-sm font-mono">
+                            GET /users/card/:userId
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bağlantılar -->
+            <div class="card rounded-xl p-6">
+                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                    Faydalı Bağlantılar
+                </h2>
+                <div class="space-y-3">
+                    <a href="https://setscript.com/docs" 
+                       class="flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        API Dokümantasyonu
+                    </a>
+                    <a href="https://setscript.com/discord"
+                       class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                        </svg>
+                        Discord Sunucusu
+                    </a>
+                    <a href="https://github.com/setscript"
+                       class="flex items-center gap-2 text-gray-400 hover:text-green-400 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Örnek Kullanım -->
+        <div class="mt-12">
+            <h2 class="text-2xl font-semibold mb-6">Örnek Kullanım</h2>
+            <div class="card rounded-xl p-6">
+                <pre class="text-sm overflow-x-auto">
+                    <code class="language-javascript">
+// JavaScript ile kullanım
+fetch('https://api.setscript.com/users/123456789')
+    .then(response => response.json())
+    .then(data => console.log(data));
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-8 mt-12 text-gray-400">
+        <p>&copy; <script>document.write(new Date().getFullYear())</script> SetScript. Tüm hakları saklıdır.</p>
+        <p class="mt-2">Made by <a href="https://parsher.xyz" class="text-blue-400 hover:text-blue-300 transition-colors">parsher</a></p>
+    </footer>
+</body>
+</html> 
